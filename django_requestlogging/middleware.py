@@ -36,6 +36,10 @@ import logging
 
 from django_requestlogging.logging_filters import RequestFilter
 
+import weakref
+weakref_type = type(weakref.ref(lambda: None))
+def deref(x):
+    return x() if x and type(x) == weakref_type else x
 
 class LogSetupMiddleware(object):
     """
@@ -114,8 +118,8 @@ class LogSetupMiddleware(object):
         *filter_cls* should be a logging filter that should be matched.
         """
         result = {}
-        for logger in filterers:
-            filters = [f for f in getattr(logger, 'filters', [])
+        for logger in map(deref, filterers):
+            filters = [f for f in map(deref, getattr(logger, 'filters', []))
                        if isinstance(f, filter_cls)]
             if filters:
                 result[logger] = filters
