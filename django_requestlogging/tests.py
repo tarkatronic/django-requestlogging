@@ -32,7 +32,6 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.client import RequestFactory
-from django.utils.log import NullHandler
 
 from django_requestlogging.logging_filters import RequestFilter
 from django_requestlogging.middleware import LogSetupMiddleware
@@ -58,7 +57,7 @@ class LogSetupMiddlewareTest(TestCase):
         logging._handlers = {}
         logging._handlerList = []
         # Create test handler
-        self.handler = NullHandler()
+        self.handler = logging.NullHandler()
         self.handler.filters = []
         self.handler.addFilter(self.filter)
         self.logger.addHandler(self.handler)
