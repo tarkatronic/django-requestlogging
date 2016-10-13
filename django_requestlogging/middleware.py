@@ -33,13 +33,18 @@ Request logging middleware
 
 
 import logging
+import weakref
 
+import six
 from django_requestlogging.logging_filters import RequestFilter
 
-import weakref
+
 weakref_type = type(weakref.ref(lambda: None))
+
+
 def deref(x):
     return x() if x and type(x) == weakref_type else x
+
 
 class LogSetupMiddleware(object):
     """
@@ -94,7 +99,7 @@ class LogSetupMiddleware(object):
         # that are under ``self.root``.
         result = {}
         prefix = self.root + '.'
-        for name, logger in logging.Logger.manager.loggerDict.iteritems():
+        for name, logger in six.iteritems(logging.Logger.manager.loggerDict):
             if self.root and not name.startswith(prefix):
                 # Does not fall under self.root
                 continue
