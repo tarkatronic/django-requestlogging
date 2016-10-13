@@ -32,13 +32,14 @@ except NameError:
     from importlib import reload  # Python 3.4+
 import logging
 
+import six
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.client import RequestFactory
 
 from django_requestlogging.logging_filters import RequestFilter
-from django_requestlogging.middleware import LogSetupMiddleware
+from django_requestlogging.middleware import LogSetupMiddleware, deref
 
 
 class LogSetupMiddlewareTest(TestCase):
@@ -72,14 +73,14 @@ class LogSetupMiddlewareTest(TestCase):
 
     def bound_logger(self, request):
         loggers = self.middleware.find_loggers_with_filter(RequestFilter)
-        for logger, filters in loggers.items():
+        for logger, filters in six.viewitems(loggers):
             if any(f.request == request for f in filters):
                 return True
         return False
 
     def bound_handler(self, request):
         handlers = self.middleware.find_handlers_with_filter(RequestFilter)
-        for handler, filters in handlers.items():
+        for handler, filters in six.viewitems(handlers):
             if any(f.request == request for f in filters):
                 return True
         return False
@@ -139,14 +140,14 @@ class LogSetupMiddlewareTest(TestCase):
 
     def test_find_loggers_with_filter(self):
         loggers = self.middleware.find_loggers_with_filter(RequestFilter)
-        self.assertEqual(loggers.keys(), [self.logger])
+        self.assertListEqual(list(six.viewkeys(loggers)), [self.logger])
         self.assertEqual([type(f) for f in loggers[self.logger]],
                          [RequestFilter],
                          loggers[self.logger])
 
     def test_find_handlers(self):
         # Find our handler
-        self.assertTrue(self.handler in self.middleware.find_handlers())
+        self.assertTrue(self.handler in map(deref, self.middleware.find_handlers()))
 
     def test_find_handlers_with_filter(self):
         handlers = self.middleware.find_handlers_with_filter(RequestFilter)
