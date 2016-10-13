@@ -26,6 +26,10 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+try:
+    reload  # Python 2.7
+except NameError:
+    from importlib import reload  # Python 3.4+
 import logging
 
 from django.contrib.auth.models import User
