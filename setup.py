@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-from setuptools import find_packages, setup
+from setuptools import setup
 
 setup(
     name='django-requestlogging',
     version='1.0',
-    description=('Adds information about requests to logging records.'),
+    description='Adds information about requests to logging records.',
     long_description=open('README.rst', 'r').read(),
     author='TrustCentric',
     author_email='admin@trustcentric.com',

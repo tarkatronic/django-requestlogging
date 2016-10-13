@@ -72,7 +72,6 @@ class LogSetupMiddlewareTest(TestCase):
 
     def bound_logger(self, request):
         loggers = self.middleware.find_loggers_with_filter(RequestFilter)
-        bound_logger, bound_handler = False, False
         for logger, filters in loggers.items():
             if any(f.request == request for f in filters):
                 return True
