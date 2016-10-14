@@ -1,6 +1,9 @@
 django-requestlogging
 =====================
 
+.. image:: https://travis-ci.org/tarkatronic/django-requestlogging.svg?branch=master
+    :target: https://travis-ci.org/tarkatronic/django-requestlogging
+
 This package provides a logging filter and middleware to add
 information about the current request to the logging record.
 
