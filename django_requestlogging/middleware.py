@@ -30,14 +30,19 @@
 Request logging middleware
 ``````````````````````````
 """
-
+from __future__ import absolute_import, unicode_literals
 
 import logging
 import weakref
 
 import six
-from django_requestlogging.logging_filters import RequestFilter
 
+from .logging_filters import RequestFilter
+
+try:
+    from django.utils.deprecation import MiddlewareMixin  # Django 1.10+
+except ImportError:
+    MiddlewareMixin = object  # Django < 1.10
 
 weakref_type = type(weakref.ref(lambda: None))
 
@@ -46,7 +51,7 @@ def deref(x):
     return x() if x and type(x) == weakref_type else x
 
 
-class LogSetupMiddleware(object):
+class LogSetupMiddleware(MiddlewareMixin):
     """
     Adds :class:`.logging_filters.RequestFilter` to every request.
 

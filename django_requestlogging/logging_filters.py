@@ -40,6 +40,7 @@ also :class:`~.middleware.LogSetupMiddleware`.
    http://docs.python.org/2.6/library/logging.html#\
    adding-contextual-information-to-your-logging-output
 """
+import django
 
 
 class RequestFilter(object):
@@ -86,12 +87,14 @@ class RequestFilter(object):
         record.path_info = getattr(request, 'path_info', '-')
         # User
         user = getattr(request, 'user', None)
-        if user and not user.is_anonymous():
+        if django.VERSION < (1, 10) and user and not user.is_anonymous():
+            record.username = user.username
+        elif django.VERSION > (1, 10) and user and not user.is_anonymous:
             record.username = user.username
         else:
             record.username = '-'
         # Headers
-        META = getattr(request, 'META', {})
+        META = getattr(request, 'META', {})  # NOQA: N806
         record.remote_addr = META.get('REMOTE_ADDR', '-')
         record.server_protocol = META.get('SERVER_PROTOCOL', '-')
         record.http_user_agent = META.get('HTTP_USER_AGENT', '-')
