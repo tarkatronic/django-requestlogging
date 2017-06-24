@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 from setuptools import find_packages, setup
 
+with open('README.rst', 'r') as f:
+    README = f.read()
+
 setup(
     name='django-requestlogging-redux',
     version='1.2.0',
     description='Adds information about requests to logging records.',
-    long_description=open('README.rst', 'r').read(),
+    long_description=README,
     author='TrustCentric',
     author_email='admin@trustcentric.com',
     maintainer='Joey Wilhelm',
@@ -29,5 +32,5 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=['Django>=1.8'],
-    tests_require=['tox']
+    test_suite='runtests.runtests'
 )

@@ -2,6 +2,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django_requestlogging',
+    'testapp',
 )
 
 SECRET_KEY = 'foobar'
@@ -15,3 +16,5 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3'
     }
 }
+
+ROOT_URLCONF = 'testapp.urls'
