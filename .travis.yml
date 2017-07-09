@@ -1,8 +1,26 @@
 sudo: false
 language: python
+cache: pip
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
-install: pip install tox-travis
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- '3.6'
+env:
+- DJANGO="1.8"
+- DJANGO="1.9"
+- DJANGO="1.10"
+- DJANGO="1.11"
+install: pip install tox-travis codecov
 script: tox
+after_success: coverage combine && codecov
+matrix:
+  fast_finish: true
+  include:
+  - python: 3.6
+    env: TOXENV=flake8
+branches:
+  only:
+  - master
+  - /^v?\d+\.\d+(\.\d+)?(-\S*)?$/
