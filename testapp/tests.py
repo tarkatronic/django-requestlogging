@@ -25,6 +25,7 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from __future__ import absolute_import, unicode_literals
 
 import logging
 
@@ -208,3 +209,10 @@ class LoggingFiltersTest(TestCase):
         self.assertEqual('HTTP/1.1', record.server_protocol)
         self.assertEqual('-', record.http_user_agent)
         self.assertEqual('test message', record.msg)
+
+
+class LoggingMiddlewareInUseTest(TestCase):
+
+    def test_views_work_with_middleware_applied(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)

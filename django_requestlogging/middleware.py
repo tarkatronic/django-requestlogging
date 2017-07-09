@@ -39,11 +39,6 @@ import six
 
 from .logging_filters import RequestFilter
 
-try:
-    from django.utils.deprecation import MiddlewareMixin  # Django 1.10+
-except ImportError:
-    MiddlewareMixin = object  # Django < 1.10
-
 weakref_type = type(weakref.ref(lambda: None))
 
 
@@ -51,7 +46,7 @@ def deref(x):
     return x() if x and type(x) == weakref_type else x
 
 
-class LogSetupMiddleware(MiddlewareMixin):
+class LogSetupMiddleware(object):
     """
     Adds :class:`.logging_filters.RequestFilter` to every request.
 
@@ -93,8 +88,18 @@ class LogSetupMiddleware(MiddlewareMixin):
     """
     FILTER = RequestFilter
 
-    def __init__(self, root=''):
+    def __init__(self, get_response=None, root=''):
         self.root = root
+        self.get_response = get_response
+        super(LogSetupMiddleware, self).__init__()
+
+    def __call__(self, request):
+        response = None
+        response = self.process_request(request)
+        if not response:
+            response = self.get_response(request)
+        response = self.process_response(request, response)
+        return response
 
     def find_loggers(self):
         """

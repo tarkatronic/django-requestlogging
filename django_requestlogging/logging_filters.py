@@ -40,6 +40,8 @@ also :class:`~.middleware.LogSetupMiddleware`.
    http://docs.python.org/2.6/library/logging.html#\
    adding-contextual-information-to-your-logging-output
 """
+from __future__ import absolute_import, unicode_literals
+
 import django
 
 

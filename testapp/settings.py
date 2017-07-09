@@ -7,8 +7,8 @@ INSTALLED_APPS = (
 
 SECRET_KEY = 'foobar'
 
-MIDDLEWARE_CLASSES = (
-    'django_requestlogging.middleware.LogSetupMiddleware'
+MIDDLEWARE = MIDDLEWARE_CLASSES = (
+    'django_requestlogging.middleware.LogSetupMiddleware',
 )
 
 DATABASES = {
