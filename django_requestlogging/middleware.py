@@ -30,14 +30,14 @@
 Request logging middleware
 ``````````````````````````
 """
-
+from __future__ import absolute_import, unicode_literals
 
 import logging
 import weakref
 
 import six
-from django_requestlogging.logging_filters import RequestFilter
 
+from .logging_filters import RequestFilter
 
 weakref_type = type(weakref.ref(lambda: None))
 
@@ -88,8 +88,18 @@ class LogSetupMiddleware(object):
     """
     FILTER = RequestFilter
 
-    def __init__(self, root=''):
+    def __init__(self, get_response=None, root=''):
         self.root = root
+        self.get_response = get_response
+        super(LogSetupMiddleware, self).__init__()
+
+    def __call__(self, request):
+        response = None
+        response = self.process_request(request)
+        if not response:
+            response = self.get_response(request)
+        response = self.process_response(request, response)
+        return response
 
     def find_loggers(self):
         """

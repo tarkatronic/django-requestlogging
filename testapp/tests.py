@@ -25,11 +25,8 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+from __future__ import absolute_import, unicode_literals
 
-try:
-    reload  # Python 2.7
-except NameError:
-    from importlib import reload  # Python 3.4+
 import logging
 
 import six
@@ -37,6 +34,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.test import TestCase
 from django.test.client import RequestFactory
+from six.moves import reload_module as reload
 
 from django_requestlogging.logging_filters import RequestFilter
 from django_requestlogging.middleware import LogSetupMiddleware, deref
@@ -85,11 +83,11 @@ class LogSetupMiddlewareTest(TestCase):
                 return True
         return False
 
-    def assertBound(self, request):
+    def assertBound(self, request):  # NOQA: N802
         self.assertTrue(self.bound_logger(request))
         self.assertTrue(self.bound_handler(request))
 
-    def assertNotBound(self, request):
+    def assertNotBound(self, request):  # NOQA: N802
         self.assertFalse(self.bound_logger(request))
         self.assertFalse(self.bound_handler(request))
 
@@ -211,3 +209,10 @@ class LoggingFiltersTest(TestCase):
         self.assertEqual('HTTP/1.1', record.server_protocol)
         self.assertEqual('-', record.http_user_agent)
         self.assertEqual('test message', record.msg)
+
+
+class LoggingMiddlewareInUseTest(TestCase):
+
+    def test_views_work_with_middleware_applied(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
