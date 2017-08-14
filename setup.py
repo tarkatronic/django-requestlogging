@@ -16,7 +16,7 @@ with open('VERSION', 'r') as vfile:
 
 setup(
     name='django-requestlogging-redux',
-    version='1.2.0',
+    version=VERSION,
     description='Adds information about requests to logging records.',
     long_description=README,
     author='TrustCentric',
