@@ -1,8 +1,18 @@
 #!/usr/bin/env python
+import os
+
 from setuptools import find_packages, setup
+
+
+# allow setup.py to be run from any path
+os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 with open('README.rst', 'r') as f:
     README = f.read()
+
+with open('VERSION', 'r') as vfile:
+    VERSION = vfile.read().strip()
+
 
 setup(
     name='django-requestlogging-redux',

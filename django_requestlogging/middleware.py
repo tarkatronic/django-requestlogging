@@ -39,6 +39,7 @@ import six
 
 from .logging_filters import RequestFilter
 
+
 weakref_type = type(weakref.ref(lambda: None))
 
 
