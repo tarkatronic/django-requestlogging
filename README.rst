@@ -1,8 +1,17 @@
 django-requestlogging
 =====================
 
+.. image:: https://img.shields.io/pypi/v/django-requestlogging-redux.svg
+   :target: https://pypi.python.org/pypi/django-requestlogging-redux
+   :alt: Latest Version
+
 .. image:: https://travis-ci.org/tarkatronic/django-requestlogging.svg?branch=master
-    :target: https://travis-ci.org/tarkatronic/django-requestlogging
+   :target: https://travis-ci.org/tarkatronic/django-requestlogging
+   :alt: Test/build status
+
+.. image:: https://codecov.io/gh/tarkatronic/django-requestlogging/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/tarkatronic/django-requestlogging
+   :alt: Code coverage
 
 This package provides a logging filter and middleware to add
 information about the current request to the logging record.
@@ -85,4 +94,3 @@ unbound again at response time.
           },
       },
   }
-
