@@ -61,7 +61,8 @@ This logging configuration can be added to your
 ``DJANGO_SETTINGS_MODULE``.  It adds an unbound RequestFilter,
 which will be bound to the current request by the middleware and then
 unbound again at response time.
-::
+
+.. code-block:: python
 
   LOGGING = {
       'filters': {
