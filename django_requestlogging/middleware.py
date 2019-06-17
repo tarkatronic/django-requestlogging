@@ -48,7 +48,7 @@ def deref(x):
 
 
 class LogSetupMiddleware(object):
-    """
+    r"""
     Adds :class:`.logging_filters.RequestFilter` to every request.
 
     If *root* is a module name, only look at loggers inside that
