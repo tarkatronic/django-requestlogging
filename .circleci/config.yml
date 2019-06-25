@@ -12,9 +12,9 @@ jobs:
       - restore_cache:
           key: deps-{{ .Branch }}-{{ checksum "setup.py" }}
       - run:
-        command: |
-          pip install -U tox
-          tox
+          command: |
+            pip install -U tox
+            tox
       - save_cache:
           key: deps-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
