@@ -15,7 +15,7 @@ jobs:
       - run:
           command: |
             pip install -U tox
-            tox
+            tox -p auto
       - save_cache:
           key: deps-{{ .Branch }}-{{ checksum "setup.py" }}
           paths:
