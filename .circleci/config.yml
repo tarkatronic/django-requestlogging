@@ -21,4 +21,4 @@ jobs:
           paths:
             - '.tox'
       - codecov/upload:
-          file: .coverage
+          file: coverage.xml
