@@ -1,0 +1,24 @@
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@1.0.5
+
+jobs:
+  build:
+    working_directory: ~/django-requestlogging
+    docker:
+      - image: themattrix/tox
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps-{{ .Branch }}-{{ checksum "setup.py" }}
+      - run:
+          command: |
+            pip install -U tox
+            tox -p auto
+      - save_cache:
+          key: deps-{{ .Branch }}-{{ checksum "setup.py" }}
+          paths:
+            - '.tox'
+      - codecov/upload:
+          file: .coverage
