@@ -5,9 +5,9 @@ django-requestlogging
    :target: https://pypi.python.org/pypi/django-requestlogging-redux
    :alt: Latest Version
 
-.. image:: https://travis-ci.org/tarkatronic/django-requestlogging.svg?branch=master
-   :target: https://travis-ci.org/tarkatronic/django-requestlogging
-   :alt: Test/build status
+.. image:: https://circleci.com/gh/tarkatronic/django-requestlogging.svg?style=svg
+   :target: https://circleci.com/gh/tarkatronic/django-requestlogging
+   :alt: Build status
 
 .. image:: https://codecov.io/gh/tarkatronic/django-requestlogging/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/tarkatronic/django-requestlogging
