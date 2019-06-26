@@ -72,6 +72,7 @@ class RequestFilter(object):
     ``username``
        The username for the logged-in user.
     """
+
     def __init__(self, request=None):
         """Saves *request* (a WSGIRequest object) for later."""
         self.request = request
@@ -85,19 +86,19 @@ class RequestFilter(object):
         """
         request = self.request
         # Basic
-        record.request_method = getattr(request, 'method', '-')
-        record.path_info = getattr(request, 'path_info', '-')
+        record.request_method = getattr(request, "method", "-")
+        record.path_info = getattr(request, "path_info", "-")
         # User
-        user = getattr(request, 'user', None)
+        user = getattr(request, "user", None)
         if django.VERSION < (1, 10) and user and not user.is_anonymous():
             record.username = user.username
         elif django.VERSION > (1, 10) and user and not user.is_anonymous:
             record.username = user.username
         else:
-            record.username = '-'
+            record.username = "-"
         # Headers
-        META = getattr(request, 'META', {})  # NOQA: N806
-        record.remote_addr = META.get('REMOTE_ADDR', '-')
-        record.server_protocol = META.get('SERVER_PROTOCOL', '-')
-        record.http_user_agent = META.get('HTTP_USER_AGENT', '-')
+        META = getattr(request, "META", {})  # NOQA: N806
+        record.remote_addr = META.get("REMOTE_ADDR", "-")
+        record.server_protocol = META.get("SERVER_PROTOCOL", "-")
+        record.http_user_agent = META.get("HTTP_USER_AGENT", "-")
         return True
