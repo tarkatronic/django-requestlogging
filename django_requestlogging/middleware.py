@@ -89,7 +89,7 @@ class LogSetupMiddleware(object):
     """
     FILTER = RequestFilter
 
-    def __init__(self, get_response=None, root=''):
+    def __init__(self, get_response=None, root=""):
         self.root = root
         self.get_response = get_response
         super(LogSetupMiddleware, self).__init__()
@@ -109,7 +109,7 @@ class LogSetupMiddleware(object):
         # Extract the full logger tree from Logger.manager.loggerDict
         # that are under ``self.root``.
         result = {}
-        prefix = self.root + '.'
+        prefix = self.root + "."
         for name, logger in six.iteritems(logging.Logger.manager.loggerDict):
             if self.root and not name.startswith(prefix):
                 # Does not fall under self.root
@@ -135,8 +135,11 @@ class LogSetupMiddleware(object):
         """
         result = {}
         for logger in map(deref, filterers):
-            filters = [f for f in map(deref, getattr(logger, 'filters', []))
-                       if isinstance(f, filter_cls)]
+            filters = [
+                f
+                for f in map(deref, getattr(logger, "filters", []))
+                if isinstance(f, filter_cls)
+            ]
             if filters:
                 result[logger] = filters
         return result
@@ -148,8 +151,7 @@ class LogSetupMiddleware(object):
         Looks for instances of *filter_cls* attached to each logger.
         If the logger has at least one, it is included in the result.
         """
-        return self._find_filterer_with_filter(self.find_loggers().values(),
-                                               filter_cls)
+        return self._find_filterer_with_filter(self.find_loggers().values(), filter_cls)
 
     def find_handlers_with_filter(self, filter_cls):
         """
@@ -158,8 +160,7 @@ class LogSetupMiddleware(object):
         Looks for instances of *filter_cls* attached to each handler.
         If the handler has at least one, it is included in the result.
         """
-        return self._find_filterer_with_filter(self.find_handlers(),
-                                               filter_cls)
+        return self._find_filterer_with_filter(self.find_handlers(), filter_cls)
 
     def add_filter(self, f, filter_cls=None):
         """Add filter *f* to any loggers that have *filter_cls* filters."""
@@ -184,13 +185,13 @@ class LogSetupMiddleware(object):
 
     def process_response(self, request, response):
         """Removes this *request*'s filter from all loggers."""
-        f = getattr(request, 'logging_filter', None)
+        f = getattr(request, "logging_filter", None)
         if f:
             self.remove_filter(f)
         return response
 
     def process_exception(self, request, exception):
         """Removes this *request*'s filter from all loggers."""
-        f = getattr(request, 'logging_filter', None)
+        f = getattr(request, "logging_filter", None)
         if f:
             self.remove_filter(f)
